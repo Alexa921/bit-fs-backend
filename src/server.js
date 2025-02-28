@@ -1,14 +1,14 @@
-import express from "express";
+import expres from "express";
 import morgan from "morgan";
 import rutasProductos from "./rutas/productos.js";
 
-const servidor = express()
+const servidor = expres();
 
-servidor.use(morgan("dev"))
-servidor.use("/productos", rutasProductos)
+servidor.use(morgan("dev"));
+servidor.use("/productos", rutasProductos);
 
-servidor.get("/", (solicitud, respuesta) =>{
-    respuesta.send("raiz funciona")
-})
+servidor.get("/", (solcitud, respuesta) => {
+  respuesta.json({ mensaje: "raiz ok", data: null });
+});
 
 export default servidor;
