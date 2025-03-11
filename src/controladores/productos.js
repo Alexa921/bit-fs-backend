@@ -5,6 +5,7 @@ class ProductosController {
 
   async crear(solicitud, respuesta) {
     try {
+      console.log("body:" , solicitud.body);
       const resultado = await ProductosModel.create(solicitud.body);
       respuesta.json({ mensaje: "se creó un nuevo producto", data: resultado });
     } catch (error) {
