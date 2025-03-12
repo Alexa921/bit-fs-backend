@@ -5,7 +5,6 @@ class ProductosController {
 
   async crear(solicitud, respuesta) {
     try {
-      console.log("body:" , solicitud.body);
       const resultado = await ProductosModel.create(solicitud.body);
       respuesta.json({ mensaje: "se creó un nuevo producto", data: resultado });
     } catch (error) {
@@ -19,9 +18,15 @@ class ProductosController {
   async leerTodos(solicitud, respuesta) {
     try {
       const resultado = await ProductosModel.getAll();
+      const arreglo = [];
+
+      for (const producto of resultado) {
+        const { _id, titulo, imagen, precio, categoria } = producto;
+        arreglo.push({ _id, titulo, imagen, precio, categoria });
+      }
       respuesta.json({
         mensaje: "se obtuvieron todos los productos",
-        data: resultado,
+        data: arreglo,
       });
     } catch (error) {
       respuesta.json({
@@ -62,8 +67,8 @@ class ProductosController {
 
   async eliminar(solicitud, respuesta) {
     try {
-      const resultado = await ProductosModel.delete(solicitud.params.id);
-      respuesta.json({ mensaje: "producto eliminado", data: resultado });
+      await ProductosModel.delete(solicitud.params.id);
+      respuesta.json({ mensaje: "producto eliminado", data: null });
     } catch (error) {
       respuesta.json({
         mensaje: "ocurrió un error al eliminar un producto",
