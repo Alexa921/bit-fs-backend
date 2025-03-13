@@ -8,7 +8,7 @@ const productoSchema = new mongoose.Schema(
     categoria: {
       type: String,
       required: true,
-      enum: ["novedades", "hombre", "mujer", "niño", "descuentos"],
+      enum: ["inicio", "novedades", "hombre", "mujer", "niño", "descuentos"],
       default: "novedades",
     },
   },
