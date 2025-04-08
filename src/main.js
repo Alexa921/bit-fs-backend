@@ -1,16 +1,31 @@
 import "dotenv/config";
-import ConexionMongodb from "./conexiones/basededatos.js";
+import "./conexiones/basededatos.js"; 
 import servidor from "./server.js";
+import cors from "cors";
 
-const puerto = process.env.PORT;
+// Middleware de CORS
+servidor.use(cors({
+  origin: function (origin, callback) {
+    console.log(origin)
+    if(!origin) return callback(null, true)
+    if(config.listablanca.indexOf(origin) === -1 ) {
+      return callback("error de cors sin permiso: " + origin, false)
+    }
+    else {
+      return callback(null, true)
+    }
+  },credentials:true
+}));
 
-let mensaje = null;
+const puerto = process.env.PORT || 3001;
 
 try {
-  servidor.listen(puerto);
-  mensaje = `mensaje = Servidor escuchando por el puerto: ${puerto};`
+  servidor.listen(puerto, () => {
+    console.log(`Servidor escuchando por el puerto: ${puerto}`);
+  });
+
+
 } catch (error) {
-  mensaje = `mensaje = Ocurrió un error, el servidor no está corriendo.\nError: ${error};`
-} finally {
-  console.log(mensaje);
+  console.error("Ocurrió un error, el servidor no está corriendo.\n", error);
 }
+
